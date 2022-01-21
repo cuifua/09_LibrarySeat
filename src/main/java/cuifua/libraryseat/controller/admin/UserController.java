@@ -105,28 +105,29 @@ public class UserController {
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> edit(User user){
+	public Result<Boolean> edit(User user)
+	{
 		//用统一验证实体方法验证是否合法
 		CodeMsg validate = ValidateEntityUtil.validate(user);
-		if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+		if(validate.getCode() != CodeMsg.SUCCESS.getCode())
 			return Result.error(validate);
-		}
-		if(user.getRole() == null || user.getRole().getId() == null){
+
+		if(user.getRole() == null || user.getRole().getId() == null)
 			return Result.error(CodeMsg.ADMIN_USER_ROLE_EMPTY);
-		}
-		if(user.getId() == null || user.getId().longValue() <= 0){
+
+		if(user.getId() == null || user.getId().longValue() <= 0)
 			return Result.error(CodeMsg.ADMIN_USE_NO_EXIST);
-		}
-		if(userService.isExistUsername(user.getUsername(), user.getId())){
+
+		if(userService.isExistUsername(user.getUsername(), user.getId()))
 			return Result.error(CodeMsg.ADMIN_USERNAME_EXIST);
-		}
+
 		//到这说明一切符合条件，进行数据库保存
 		User findById = userService.find(user.getId());
 		//讲提交的用户信息指定字段复制到已存在的user对象中,该方法会覆盖新字段内容
 		BeanUtils.copyProperties(user, findById, "id","createTime","updateTime");
-		if(userService.save(findById) == null){
+		if(userService.save(findById) == null)
 			return Result.error(CodeMsg.ADMIN_USE_EDIT_ERROR);
-		}
+
 		operaterLogService.add("编辑用户，用户名：" + user.getUsername());
 		return Result.success(true);
 	}
@@ -138,7 +139,8 @@ public class UserController {
 	 */
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> delete(@RequestParam(name="id",required=true)Long id){
+	public Result<Boolean> delete(@RequestParam(name="id",required=true)Long id)
+	{
 		try {
 			userService.delete(id);
 		} catch (Exception e) {

@@ -46,7 +46,8 @@ public class Result<T>
 	 * @param data
 	 * @return
 	 */
-	public static <T>Result<T> success(T data){
+	public static <T>Result<T> success(T data)
+	{
 		return new Result<T>(data,CodeMsg.SUCCESS);
 	}
 

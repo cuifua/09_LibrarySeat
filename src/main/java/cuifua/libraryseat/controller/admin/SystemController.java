@@ -40,10 +40,8 @@ import java.util.Date;
  */
 @RequestMapping("/system")
 @Controller
-public class SystemController {
-
-	
-	
+public class SystemController
+{
 	@Autowired
 	private OperaterLogService operaterLogService;
 	
@@ -88,54 +86,58 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> login(HttpServletRequest request,User user,String cpacha){
-		if(user == null){
+	public Result<Boolean> login(HttpServletRequest request,User user,String cpacha)
+	{
+		if(user == null)
 			return Result.error(CodeMsg.DATA_ERROR);
-		}
+
 		//用统一验证实体方法验证是否合法
 		CodeMsg validate = ValidateEntityUtil.validate(user);
-		if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+		if(validate.getCode() != CodeMsg.SUCCESS.getCode())
 			return Result.error(validate);
-		}
+
 		//表示实体信息合法，开始验证验证码是否为空
-		if(StringUtils.isEmpty(cpacha)){
+		if(StringUtils.isEmpty(cpacha))
 			return Result.error(CodeMsg.CPACHA_EMPTY);
-		}
+
 		//说明验证码不为空，从session里获取验证码
 		Object attribute = request.getSession().getAttribute("admin_login");
-		if(attribute == null){
+		if(attribute == null)
 			return Result.error(CodeMsg.SESSION_EXPIRED);
-		}
+
 		//表示session未失效，进一步判断用户填写的验证码是否正确
-		if(!cpacha.equalsIgnoreCase(attribute.toString())){
+		if(!cpacha.equalsIgnoreCase(attribute.toString()))
 			return Result.error(CodeMsg.CPACHA_ERROR);
-		}
+
 		//表示验证码正确，开始查询数据库，检验密码是否正确
 		User findByUsername = userService.findByUsername(user.getUsername());
+
 		//判断是否为空
-		if(findByUsername == null){
+		if(findByUsername == null)
 			return Result.error(CodeMsg.ADMIN_USERNAME_NO_EXIST);
-		}
+
 		//表示用户存在，进一步对比密码是否正确
-		if(!findByUsername.getPassword().equals(user.getPassword())){
+		if(!findByUsername.getPassword().equals(user.getPassword()))
 			return Result.error(CodeMsg.ADMIN_PASSWORD_ERROR);
-		}
+
 		//表示密码正确，接下来判断用户状态是否可用
-		if(findByUsername.getStatus() == User.ADMIN_USER_STATUS_UNABLE){
+		if(findByUsername.getStatus() == User.ADMIN_USER_STATUS_UNABLE)
 			return Result.error(CodeMsg.ADMIN_USER_UNABLE);
-		}
+
 		//检查用户所属角色状态是否可用
-		if(findByUsername.getRole() == null || findByUsername.getRole().getStatus() == Role.ADMIN_ROLE_STATUS_UNABLE){
+		if(findByUsername.getRole() == null || findByUsername.getRole().getStatus() == Role.ADMIN_ROLE_STATUS_UNABLE)
 			return Result.error(CodeMsg.ADMIN_USER_ROLE_UNABLE);
-		}
+
 		//检查用户所属角色的权限是否存在
-		if(findByUsername.getRole().getAuthorities() == null || findByUsername.getRole().getAuthorities().size() == 0){
+		if(findByUsername.getRole().getAuthorities() == null || findByUsername.getRole().getAuthorities().size() == 0)
 			return Result.error(CodeMsg.ADMIN_USER_ROLE_AUTHORITES_EMPTY);
-		}
+
 		//检查一切符合，可以登录，将用户信息存放至session
 		request.getSession().setAttribute(SessionConstant.SESSION_USER_LOGIN_KEY, findByUsername);
+
 		//销毁session中的验证码
 		request.getSession().setAttribute("admin_login", null);
+
 		//将登陆记录写入日志库
 		operaterLogService.add("用户【"+user.getUsername()+"】于【" + StringUtil.getFormatterDate(new Date(), "yyyy-MM-dd HH:mm:ss") + "】登录系统！");
 		log.info("用户成功登录，user = " + findByUsername);
@@ -148,7 +150,8 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/index")
-	public String index(Model model){
+	public String index(Model model)
+	{
 		model.addAttribute("operatorLogs", operaterLogService.findLastestLog(10));
 		model.addAttribute("userTotal", userService.total());
 		model.addAttribute("operatorLogTotal", operaterLogService.total());
@@ -166,7 +169,8 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/logout")
-	public String logout(){
+	public String logout()
+	{
 		User loginedUser = SessionUtil.getLoginedUser();
 		if(loginedUser != null){
 			SessionUtil.set(SessionConstant.SESSION_USER_LOGIN_KEY, null);
@@ -179,7 +183,8 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/no_right")
-	public String noRight(){
+	public String noRight()
+	{
 		return "admin/system/no_right";
 	}
 	
@@ -188,7 +193,8 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/update_userinfo",method=RequestMethod.GET)
-	public String updateUserInfo(){
+	public String updateUserInfo()
+	{
 		return "admin/system/update_userinfo";
 	}
 	
@@ -199,8 +205,8 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/update_userinfo",method=RequestMethod.POST)
 	@ResponseBody
-	public Result updateUserInfo(User user,Model model){
-
+	public Result updateUserInfo(User user,Model model)
+	{
 		User loginedUser = SessionUtil.getLoginedUser();
 		loginedUser.setEmail(user.getEmail());
 		loginedUser.setNickName(user.getNickName());
@@ -208,6 +214,7 @@ public class SystemController {
 		loginedUser.setHeadPic(user.getHeadPic());
 		//首先保存到数据库
 		User save = userService.save(loginedUser);
+
 		//更新session里的值
 		SessionUtil.set(SessionConstant.SESSION_USER_LOGIN_KEY, loginedUser);
 		return Result.success(save);
@@ -232,7 +239,8 @@ public class SystemController {
 	@ResponseBody
 	public Result<Boolean> updatePwd(@RequestParam(name="oldPwd",required=true)String oldPwd,
 			@RequestParam(name="newPwd",required=true)String newPwd
-			){
+			)
+	{
 		User loginedUser = SessionUtil.getLoginedUser();
 		if(!loginedUser.getPassword().equals(oldPwd)){
 			return Result.error(CodeMsg.ADMIN_USER_UPDATE_PWD_ERROR);
@@ -256,7 +264,8 @@ public class SystemController {
 	 * @return
 	 */
 	@RequestMapping(value="/operator_log_list")
-	public String operatorLogList(Model model,OperaterLog operaterLog,PageBean<OperaterLog> pageBean){
+	public String operatorLogList(Model model,OperaterLog operaterLog,PageBean<OperaterLog> pageBean)
+	{
 		model.addAttribute("pageBean", operaterLogService.findList(operaterLog, pageBean));
 		model.addAttribute("operator", operaterLog.getOperator());
 		model.addAttribute("title", "日志列表");
@@ -270,7 +279,8 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/delete_operator_log",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> delete(String ids){
+	public Result<Boolean> delete(String ids)
+	{
 		if(!StringUtils.isEmpty(ids)){
 			String[] splitIds = ids.split(",");
 			for(String id : splitIds){
@@ -288,7 +298,8 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/auth_order",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> authOrder(@RequestParam(name="orderSn",required=true)String orderSn,@RequestParam(name="phone",required=true)String phone){
+	public Result<Boolean> authOrder(@RequestParam(name="orderSn",required=true)String orderSn,@RequestParam(name="phone",required=true)String phone)
+	{
 		if(orderSn.length() < 18){
 			return Result.error(CodeMsg.ORDER_SN_ERROR);
 		}
@@ -314,7 +325,8 @@ public class SystemController {
 	 */
 	@RequestMapping(value="/delete_all_operator_log",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> deleteAll(){
+	public Result<Boolean> deleteAll()
+	{
 		operaterLogService.deleteAll();
 		return Result.success(true);
 	}

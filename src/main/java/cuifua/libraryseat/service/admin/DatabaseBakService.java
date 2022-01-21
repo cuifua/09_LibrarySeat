@@ -24,13 +24,13 @@ public class DatabaseBakService {
 	private OperaterLogService operaterLogService;
 	@Autowired
 	private DatabaseBakDao databaseBakDao;
-	@Value("${ylrc.database.backup.dir}")
+	@Value("${BeiTu.database.backup.dir}")
 	private String backUpDir;
-	@Value("${ylrc.database.backup.username}")
+	@Value("${BeiTu.database.backup.username}")
 	private String dbUsername;
-	@Value("${ylrc.database.backup.password}")
+	@Value("${BeiTu.database.backup.password}")
 	private String dbPwd;
-	@Value("${ylrc.database.backup.database.name}")
+	@Value("${BeiTu.database.backup.database.name}")
 	private String dbName;
 	
 	private Logger log = LoggerFactory.getLogger(DatabaseBakService.class);

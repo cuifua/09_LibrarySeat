@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("photo")
 @Controller
-public class PhotoController {
-	
+public class PhotoController
+{
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
-	@Value("${ylrc.upload.photo.path}")
+	@Value("${BeiTu.upload.photo.path}")
 	private String uploadPhotoPath;//文件保存位置
 	
 	/**
@@ -29,11 +29,15 @@ public class PhotoController {
 	 */
 	@RequestMapping(value="/view")
 	@ResponseBody
-	public ResponseEntity<?> viewPhoto(@RequestParam(name="filename",required=true)String filename){
+	public ResponseEntity<?> viewPhoto(@RequestParam(name="filename",required=true)String filename)
+	{
 		Resource resource = resourceLoader.getResource("file:" + uploadPhotoPath + filename); 
-		try {
+		try
+		{
 			return ResponseEntity.ok(resource);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return ResponseEntity.notFound().build();
 		}
 	}

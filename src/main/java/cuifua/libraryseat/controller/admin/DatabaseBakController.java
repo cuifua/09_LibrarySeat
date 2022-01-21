@@ -34,7 +34,7 @@ public class DatabaseBakController {
 	@Autowired
 	private DatabaseBakService databaseBakService;
 	
-	@Value("${ylrc.database.backup.dir}")
+	@Value("${BeiTu.database.backup.dir}")
 	private String backUpDir;
 	
 	private Logger log = LoggerFactory.getLogger(DatabaseBakController.class);
