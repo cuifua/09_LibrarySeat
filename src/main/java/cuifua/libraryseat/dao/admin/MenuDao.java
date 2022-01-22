@@ -10,7 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MenuDao extends JpaRepository<Menu, Long> {
+public interface MenuDao extends JpaRepository<Menu, Long>
+{
 	@Query("select m from Menu m where m.id = :id")
 	Menu find(@Param("id")Long id);
 }

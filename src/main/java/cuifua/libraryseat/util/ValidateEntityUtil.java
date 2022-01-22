@@ -10,46 +10,61 @@ import java.lang.reflect.Field;
  * @author Administrator
  *
  */
-public class ValidateEntityUtil {
-	
-	public static CodeMsg validate(Object object){
+public class ValidateEntityUtil
+{
+	public static CodeMsg validate(Object object)
+	{
 		Field[] declaredFields = object.getClass().getDeclaredFields();
-		for(Field field : declaredFields){
+
+		for(Field field : declaredFields)
+		{
 			ValidateEntity annotation = field.getAnnotation(ValidateEntity.class);
-			if(annotation != null){
-				if(annotation.required()){
+			if(annotation != null)
+			{
+				if(annotation.required())
+				{
 					//表示该字段是必填字段
 					field.setAccessible(true);
-					try {
+					try
+					{
 						Object o = field.get(object);
 						//首先判断是否为空
-						if(o == null){
+						if(o == null)
+						{
 							CodeMsg codeMsg = CodeMsg.VALIDATE_ENTITY_ERROR;
 							codeMsg.setMsg(annotation.errorRequiredMsg());
 							return codeMsg;
 						}
 						//到这，说明该变量的值不是null
 						//首先判断是不是String类型
-						if(o instanceof String){
+						if(o instanceof String)
+						{
 							//若是字符串类型，则检查其长度
-							if(annotation.requiredLeng()){
-								if(o.toString().length() < annotation.minLength()){
+							if(annotation.requiredLeng())
+							{
+								if(o.toString().length() < annotation.minLength())
+								{
 									CodeMsg codeMsg = CodeMsg.VALIDATE_ENTITY_ERROR;
 									codeMsg.setMsg(annotation.errorMinLengthMsg());
 									return codeMsg;
 								}
-								if(o.toString().length() > annotation.maxLength()){
+								if(o.toString().length() > annotation.maxLength())
+								{
 									CodeMsg codeMsg = CodeMsg.VALIDATE_ENTITY_ERROR;
 									codeMsg.setMsg(annotation.errorMaxLengthMsg());
 									return codeMsg;
 								}
 							}
 						}
+
 						//其次来判断是否为数字
-						if(isNumberObject(o)){
+						if(isNumberObject(o))
+						{
 							//判断是否规定检查最小值
-							if(annotation.requiredMinValue()){
-								if(Double.valueOf(o.toString()) < annotation.minValue()){
+							if(annotation.requiredMinValue())
+							{
+								if(Double.valueOf(o.toString()) < annotation.minValue())
+								{
 									CodeMsg codeMsg = CodeMsg.VALIDATE_ENTITY_ERROR;
 									codeMsg.setMsg(annotation.errorMinValueMsg());
 									return codeMsg;
@@ -64,10 +79,14 @@ public class ValidateEntityUtil {
 								}
 							}
 						}
-					} catch (IllegalArgumentException e) {
+					}
+					catch (IllegalArgumentException e)
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (IllegalAccessException e) {
+					}
+					catch (IllegalAccessException e)
+					{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -82,7 +101,8 @@ public class ValidateEntityUtil {
 	 * @param object
 	 * @return
 	 */
-	public static boolean isNumberObject(Object object){
+	public static boolean isNumberObject(Object object)
+	{
 		if(object instanceof Integer)return true;
 		if(object instanceof Long)return true;
 		if(object instanceof Float)return true;

@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RoleService {
+public class RoleService
+{
 	
 	@Autowired
 	private RoleDao roleDao;
@@ -42,7 +43,8 @@ public class RoleService {
 	 * @param pageBean
 	 * @return
 	 */
-	public PageBean<Role> findByName(Role role,PageBean<Role> pageBean){
+	public PageBean<Role> findByName(Role role,PageBean<Role> pageBean)
+	{
 		ExampleMatcher withMatcher = ExampleMatcher.matching().withMatcher("name", GenericPropertyMatchers.contains());
 		withMatcher = withMatcher.withIgnorePaths("status");
 		Example<Role> example = Example.of(role, withMatcher);

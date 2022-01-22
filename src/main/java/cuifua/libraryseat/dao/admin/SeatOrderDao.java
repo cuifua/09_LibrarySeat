@@ -10,11 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SeatOrderDao extends JpaRepository<SeatOrder,Long> {
-
+public interface SeatOrderDao extends JpaRepository<SeatOrder,Long>
+{
     @Query("select s from SeatOrder s where id = :id")
     Seat find(@Param("id")Long id);
-
 
     int countSeatOrderBySeat_ReadingRoom_Id(Long id);
 

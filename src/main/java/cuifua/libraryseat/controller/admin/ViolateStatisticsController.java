@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/statistics")
-public class ViolateStatisticsController {
-
-
+public class ViolateStatisticsController
+{
     @Autowired
     private ViolateStatisticsService violateStatisticsService;
 
@@ -30,10 +29,9 @@ public class ViolateStatisticsController {
      */
     @RequestMapping("/statisticsList")
     @ResponseBody
-    public Statistics statisticsList() {
-
+    public Statistics statisticsList()
+    {
         Statistics data = violateStatisticsService.statisticsList();
-
         return data;
     }
 

@@ -18,30 +18,37 @@ import java.io.IOException;
 import java.util.Date;
 
 @Service
-public class DatabaseBakService {
-
+public class DatabaseBakService
+{
 	@Autowired
 	private OperaterLogService operaterLogService;
+
 	@Autowired
 	private DatabaseBakDao databaseBakDao;
+
 	@Value("${BeiTu.database.backup.dir}")
 	private String backUpDir;
+
 	@Value("${BeiTu.database.backup.username}")
 	private String dbUsername;
+
 	@Value("${BeiTu.database.backup.password}")
 	private String dbPwd;
+
 	@Value("${BeiTu.database.backup.database.name}")
 	private String dbName;
 	
 	private Logger log = LoggerFactory.getLogger(DatabaseBakService.class);
-	
+
+
+
 	/**
 	 * 分页查找数据库备份记录
-	 * @param operaterLog
 	 * @param pageBean
 	 * @return
 	 */
-	public PageBean<DatabaseBak> findList(PageBean<DatabaseBak> pageBean){
+	public PageBean<DatabaseBak> findList(PageBean<DatabaseBak> pageBean)
+	{
 		Pageable pageable = PageRequest.of(pageBean.getCurrentPage()-1, pageBean.getPageSize());
 		Page<DatabaseBak> findAll = databaseBakDao.findAll(pageable);
 		pageBean.setContent(findAll.getContent());
@@ -49,7 +56,8 @@ public class DatabaseBakService {
 		pageBean.setTotalPage(findAll.getTotalPages());
 		return pageBean;
 	}
-	
+
+
 	/**
 	 * 添加或修改数据库备份记录
 	 * @param databaseBak
@@ -58,7 +66,8 @@ public class DatabaseBakService {
 	public DatabaseBak save(DatabaseBak databaseBak){
 		return databaseBakDao.save(databaseBak);
 	}
-	
+
+
 	/**
 	 * 根据id查询
 	 * @param id
@@ -67,7 +76,8 @@ public class DatabaseBakService {
 	public DatabaseBak find(Long id){
 		return databaseBakDao.find(id);
 	}
-	
+
+
 	/**
 	 * 根据id删除
 	 * @param id
@@ -75,17 +85,19 @@ public class DatabaseBakService {
 	public void delete(Long id){
 		databaseBakDao.deleteById(id);
 	}
-	
+
+
 	/**
-	 *
 	 * 备份数据库
 	 */
-	public void backup(){
+	public void backup()
+	{
 		File path = new File(backUpDir);
-		if(!path.exists()){
+		if(!path.exists())
 			path.mkdir();
-		}
-		try {
+
+		try
+		{
 			String filename = dbName + "_" + StringUtil.getFormatterDate(new Date(), "yyyyMMddHHmmss") + ".sql";
 			String cmd = "mysqldump -u"+dbUsername+" -p"+dbPwd+" "+dbName+" -r " + backUpDir + filename;
 			Runtime.getRuntime().exec(cmd);
@@ -95,26 +107,33 @@ public class DatabaseBakService {
 			save(databaseBak);
 			log.info("数据库备份成功");
 			operaterLogService.add("数据库成功备份，备份文件信息：" + databaseBak);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	/**
 	 * 还原数据库
 	 * @param id
 	 */
-	public void restore(Long id){
+	public void restore(Long id)
+	{
 		DatabaseBak databaseBak = find(id);
-		if(databaseBak != null){
-			try {
+		if(databaseBak != null)
+		{
+			try
+			{
 				String filename = databaseBak.getFilename();
 				File file = new File(databaseBak.getFilepath() + databaseBak.getFilename());
 				String cmd = "mysql -u"+dbUsername+" -p"+dbPwd+" "+dbName+" < " + backUpDir + filename;;
-				if(!file.exists()){
+
+				if(!file.exists())
 					cmd = "mysql -u"+dbUsername+" -p"+dbPwd+" "+dbName+" < " + databaseBak.getFilepath() + databaseBak.getFilename();
-				}
+
 				String stmt1 = "mysqladmin -u "+dbUsername+" -p"+dbPwd+" create "+dbName;
 				String[] cmds = { "cmd", "/c", cmd };
 				Runtime.getRuntime().exec(stmt1);
@@ -122,13 +141,16 @@ public class DatabaseBakService {
 				log.info(StringUtil.getStringFromInputStream(exec.getErrorStream()));
 				log.info("数据库还原成功");
 				operaterLogService.add("数据库成功还原，还原文件信息：" + databaseBak);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
+
 	/**
 	 * 备份总数
 	 * @return

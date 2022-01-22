@@ -14,9 +14,11 @@ import javax.persistence.*;
 @Data
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class Teacher extends BaseEntity {
+public class Teacher extends BaseEntity
+{
     public static final String TEACHER_BIRTHDAY_ENABLE = "T";//学生默认生成学号默认是T
     public static final Long TEACHER_ROLE_ENABLE = 10l;//教师默认角色是教师 10默认是教师
+
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;//学生相对应的用户
@@ -27,5 +29,4 @@ public class Teacher extends BaseEntity {
     @ManyToOne
     @JoinColumn(name="teacherType_id")
     private TeacherType teacherType;//教师相对应的用户
-
 }

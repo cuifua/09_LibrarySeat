@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface UserDao extends JpaRepository<User, Long>{
+public interface UserDao extends JpaRepository<User, Long>
+{
 	
 	/**
 	 * 按照用户名查找用户信息

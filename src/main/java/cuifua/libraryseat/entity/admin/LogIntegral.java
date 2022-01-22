@@ -12,8 +12,8 @@ import javax.persistence.*;
 @Data
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class LogIntegral extends BaseEntity {
-
+public class LogIntegral extends BaseEntity
+{
     @ManyToOne
     @JoinColumn(name="student_id")
     private Student student;//学生
@@ -29,7 +29,4 @@ public class LogIntegral extends BaseEntity {
     @ValidateEntity(required = false)
     @Column(name="cause")
     private String cause; //原因
-
-
-
 }

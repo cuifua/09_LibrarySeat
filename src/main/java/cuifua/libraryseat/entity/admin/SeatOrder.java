@@ -13,8 +13,8 @@ import java.util.Date;
 @ToString
 @Table(name = "ylrc_seat_order")
 @EntityListeners(AuditingEntityListener.class)
-public class SeatOrder extends BaseEntity{
-
+public class SeatOrder extends BaseEntity
+{
     @ManyToOne
     @JoinColumn(name="seat_id")
     private Seat seat;//座位Id
@@ -40,6 +40,4 @@ public class SeatOrder extends BaseEntity{
 
     @Transient
     private int stringTime; //预约时间String格式
-
-
 }

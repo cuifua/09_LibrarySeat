@@ -12,12 +12,11 @@ import javax.persistence.*;
 @ToString
 @Table(name = "ylrc_seat")
 @EntityListeners(AuditingEntityListener.class)
-public class Seat extends BaseEntity {
-
+public class Seat extends BaseEntity
+{
     private static final int SEAT_USABLE = 1;//可用
 
     private static final int SEAT_DISABLE = 2;//不可用
-
 
     // 阅览室ID
     @ManyToOne
@@ -35,5 +34,4 @@ public class Seat extends BaseEntity {
     @ValidateEntity(required = false)
     @Column(name = "status", length = 1)
     private int status = SEAT_USABLE; //可用状态
-
 }

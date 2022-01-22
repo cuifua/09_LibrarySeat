@@ -59,6 +59,7 @@ public class StudentService
         userService.delete(byID.getUser().getId());
     }
 
+
     /**
      * 保存学生
      * 用户需要固定一个学生的角色
@@ -80,6 +81,8 @@ public class StudentService
         student.setUser(save);
         return studentDao.save(student);
     }
+
+
     public Student save(Student student)
     {
         return studentDao.save(student);
@@ -104,6 +107,7 @@ public class StudentService
         return studentDao.save(byID);
     }
 
+
     /**
      * 分页按角色名称搜索角色列表
      *
@@ -123,6 +127,7 @@ public class StudentService
         pageBean.setTotalPage(findAll.getTotalPages());
         return pageBean;
     }
+
 
     /**
      * 获取user的id查询

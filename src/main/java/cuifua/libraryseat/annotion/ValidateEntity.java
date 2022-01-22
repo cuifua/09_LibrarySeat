@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidateEntity {
-	
+public @interface ValidateEntity
+{
 	public boolean required() default false;//是否检验null
 	
 	public boolean requiredLeng() default false;//是否检验检验长度

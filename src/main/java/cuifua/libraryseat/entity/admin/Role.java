@@ -14,11 +14,8 @@ import java.util.List;
 @Entity
 @Table(name="ylrc_role")
 @EntityListeners(AuditingEntityListener.class)
-public class Role extends BaseEntity{
-
-	/**
-	 * 
-	 */
+public class Role extends BaseEntity
+{
 	private static final long serialVersionUID = 1L;
 	
 	public static final int ADMIN_ROLE_STATUS_ENABLE = 1;//角色状态正常可用
@@ -44,7 +41,6 @@ public class Role extends BaseEntity{
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -52,7 +48,6 @@ public class Role extends BaseEntity{
 	public List<Menu> getAuthorities() {
 		return authorities;
 	}
-
 	public void setAuthorities(List<Menu> authorities) {
 		this.authorities = authorities;
 	}
@@ -60,7 +55,6 @@ public class Role extends BaseEntity{
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
@@ -68,20 +62,14 @@ public class Role extends BaseEntity{
 	public String getRemark() {
 		return remark;
 	}
-
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Role [name=" + name + ", authorities=" + authorities
 				+ ", status=" + status + ", remark=" + remark + "]";
 	}
-	
-	
-	
-	
-	
-	
 }

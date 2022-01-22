@@ -24,8 +24,8 @@ import java.util.List;
  */
 @RequestMapping("/menu")
 @Controller
-public class MenuController {
-
+public class MenuController
+{
 	@Autowired
 	private MenuService menuService;
 	
@@ -38,7 +38,8 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="/list")
-	public String list(Model model){
+	public String list(Model model)
+	{
 		List<Menu> findAll = menuService.findAll();
 		model.addAttribute("title","菜单列表");
 		model.addAttribute("topMenus",MenuUtil.getTopMenus(findAll));
@@ -46,21 +47,24 @@ public class MenuController {
 		model.addAttribute("thirdMenus",MenuUtil.getThirdMenus(findAll));
 		return "admin/menu/list";
 	}
-	
+
+
 	/**
 	 * 菜单添加页面
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.GET)
-	public String add(Model model){
+	public String add(Model model)
+	{
 		List<Menu> findAll = menuService.findAll();
 		model.addAttribute("title","菜单列表");
 		model.addAttribute("topMenus",MenuUtil.getTopMenus(findAll));
 		model.addAttribute("secondMenus",MenuUtil.getSecondMenus(findAll));
 		return "admin/menu/add";
 	}
-	
+
+
 	/**
 	 * 菜单添加提交表单处理
 	 * @param menu
@@ -68,29 +72,31 @@ public class MenuController {
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> add(Menu menu){
-		if(menu == null){
+	public Result<Boolean> add(Menu menu)
+	{
+		if(menu == null)
 			Result.error(CodeMsg.DATA_ERROR);
-		}
+
 		//用统一验证实体方法验证是否合法
 		CodeMsg validate = ValidateEntityUtil.validate(menu);
-		if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+		if(validate.getCode() != CodeMsg.SUCCESS.getCode())
 			return Result.error(validate);
-		}
-		if(menu.getParent() != null){
-			if(menu.getParent().getId() == null){
+
+		if(menu.getParent() != null)
+		{
+			if(menu.getParent().getId() == null)
 				menu.setParent(null);
-			}
 		}
 		//表示验证都通过，开始添加数据库
-		if(menuService.save(menu) == null){
+		if(menuService.save(menu) == null)
 			Result.error(CodeMsg.ADMIN_MENU_ADD_ERROR);
-		}
+
 		//数据库添加操作成功,记录日志
 		operaterLogService.add("添加菜单信息【" + menu + "】");
 		return Result.success(true);
 	}
-	
+
+
 	/**
 	 * 菜单编辑页面
 	 * @param model
@@ -98,7 +104,8 @@ public class MenuController {
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
-	public String eidt(Model model,@RequestParam(name="id",required=true)Long id){
+	public String eidt(Model model,@RequestParam(name="id",required=true)Long id)
+	{
 		List<Menu> findAll = menuService.findAll();
 		model.addAttribute("title","菜单列表");
 		model.addAttribute("topMenus",MenuUtil.getTopMenus(findAll));
@@ -106,7 +113,8 @@ public class MenuController {
 		model.addAttribute("menu",menuService.find(id));
 		return "admin/menu/edit";
 	}
-	
+
+
 	/**
 	 * 菜单编辑页面表单提交处理
 	 * @param
@@ -115,27 +123,29 @@ public class MenuController {
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> edit(Menu menu){
-		if(menu == null){
+	public Result<Boolean> edit(Menu menu)
+	{
+		if(menu == null)
 			Result.error(CodeMsg.DATA_ERROR);
-		}
-		if(menu.getId() == null){
+
+		if(menu.getId() == null)
 			Result.error(CodeMsg.ADMIN_MENU_ID_EMPTY);
-		}
+
 		//用统一验证实体方法验证是否合法
 		CodeMsg validate = ValidateEntityUtil.validate(menu);
-		if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+		if(validate.getCode() != CodeMsg.SUCCESS.getCode())
 			return Result.error(validate);
-		}
-		if(menu.getParent() != null){
-			if(menu.getParent().getId() == null){
+
+		if(menu.getParent() != null)
+		{
+			if(menu.getParent().getId() == null)
 				menu.setParent(null);
-			}
 		}
 		Menu existMenu = menuService.find(menu.getId());
-		if(existMenu == null){
+
+		if(existMenu == null)
 			Result.error(CodeMsg.ADMIN_MENU_ID_ERROR);
-		}
+
 		//表示验证都通过，开始添加数据库
 		existMenu.setIcon(menu.getIcon());
 		existMenu.setName(menu.getName());
@@ -144,28 +154,33 @@ public class MenuController {
 		existMenu.setUrl(menu.getUrl());
 		existMenu.setButton(menu.isButton());
 		existMenu.setShow(menu.isShow());
-		if(menuService.save(existMenu) == null){
+		if(menuService.save(existMenu) == null)
 			Result.error(CodeMsg.ADMIN_MENU_ADD_ERROR);
-		}
+
 		//数据库添加操作成功,记录日志
 		operaterLogService.add("编辑菜单信息【" + existMenu + "】");
 		return Result.success(true);
 	}
-	
+
+
 	/**
 	 * 删除菜单信息
-	 * @param request
 	 * @param id
 	 * @return
 	 */
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> delete(@RequestParam(name="id",required=true)Long id){
-		try {
+	public Result<Boolean> delete(@RequestParam(name="id",required=true)Long id)
+	{
+		try
+		{
 			menuService.delete(id);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return Result.error(CodeMsg.ADMIN_MENU_DELETE_ERROR);
 		}
+
 		//数据库添加操作成功,记录日志
 		operaterLogService.add("删除菜单信息，菜单ID【" + id + "】");
 		return Result.success(true);

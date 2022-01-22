@@ -13,11 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ylrc_database_bak")
 @EntityListeners(AuditingEntityListener.class)
-public class DatabaseBak extends BaseEntity{
-
-	/**
-	 * 
-	 */
+public class DatabaseBak extends BaseEntity
+{
 	private static final long serialVersionUID = 1L;
 	
 	@Column(name="filename",nullable=false,length=32)
@@ -29,7 +26,6 @@ public class DatabaseBak extends BaseEntity{
 	public String getFilename() {
 		return filename;
 	}
-
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
@@ -37,23 +33,14 @@ public class DatabaseBak extends BaseEntity{
 	public String getFilepath() {
 		return filepath;
 	}
-
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "DatabaseBak [filename=" + filename + ", filepath=" + filepath
 				+ "]";
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 }

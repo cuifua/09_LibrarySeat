@@ -20,8 +20,8 @@ import java.io.IOException;
  */
 @Controller
 @RequestMapping("/cpacha")
-public class CpachaController {
-
+public class CpachaController
+{
 	private Logger log = LoggerFactory.getLogger(CpachaController.class);
 	
 	/**
@@ -42,15 +42,21 @@ public class CpachaController {
 			@RequestParam(name="h",defaultValue="33")Integer height,//height,图片高度
 			@RequestParam(name="method",defaultValue="admin_login")String method,//用来调用此方法的名称，以此名称为键，存入到session中
 			HttpServletRequest request,
-			HttpServletResponse response){
+			HttpServletResponse response)
+	{
 		CpachaUtil cpachaUtil = new CpachaUtil(vcodeLength,fontSize,width,height);
 		String generatorVCode = cpachaUtil.generatorVCode();
+
 		//将生成的验证码放入session，以供放后面程序的验证使用
 		request.getSession().setAttribute(method, generatorVCode);
 		log.info("验证码成功生成，method=" + method + ",value=" + generatorVCode);
-		try {
+
+		try
+		{
 			ImageIO.write(cpachaUtil.generatorRotateVCodeImage(generatorVCode, true), "gif", response.getOutputStream());
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

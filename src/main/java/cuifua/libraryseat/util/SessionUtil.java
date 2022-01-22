@@ -13,61 +13,70 @@ import javax.servlet.http.HttpSession;
  * @author Administrator
  *
  */
-public class SessionUtil {
-
+public class SessionUtil
+{
 	/**
 	 * 获取请求request
 	 * @return
 	 */
-	public static HttpServletRequest getRequest(){
+	public static HttpServletRequest getRequest()
+	{
 		ServletRequestAttributes attributes =(ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
 		return attributes == null ? null : attributes.getRequest();
 	}
-	
+
+
 	/**
 	 * 获取session
 	 * @return
 	 */
-	public static HttpSession getSession(){
+	public static HttpSession getSession()
+	{
 		HttpServletRequest request = getRequest();
-		if(request != null){
+		if(request != null)
 			return request.getSession();
-		}
 		return null;
 	}
-	
+
+
 	/**
 	 * 获取指定键的值
 	 * @param key
 	 * @return
 	 */
-	public static Object get(String key){
+	public static Object get(String key)
+	{
 		HttpSession session = getSession();
-		if(session != null){
+
+		if(session != null)
 			return session.getAttribute(key);
-		}
+
 		return null;
 	}
-	
+
+
 	/**
 	 * 设置session值
 	 * @param key
 	 * @param object
 	 */
-	public static void set(String key,Object object){
+	public static void set(String key,Object object)
+	{
 		HttpSession session = getSession();
-		if(session != null){
+		if(session != null)
 			session.setAttribute(key,object);
-		}
 	}
-	
+
+
 	/**
 	 * 获取当前登录的用户
 	 * @return
 	 */
-	public static User getLoginedUser(){
+	public static User getLoginedUser()
+	{
 		HttpSession session = getSession();
-		if(session != null){
+		if(session != null)
+		{
 			Object attribute = session.getAttribute(SessionConstant.SESSION_USER_LOGIN_KEY);
 			return attribute == null ? null : (User)attribute;
 		}

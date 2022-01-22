@@ -12,8 +12,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/statistic")
-public class SeatStatisticsController {
-
+public class SeatStatisticsController
+{
     @Autowired
     private SeatStatisticsService seatStatisticsService;
 
@@ -22,7 +22,8 @@ public class SeatStatisticsController {
      * @return
      */
     @RequestMapping(value = "/occupied")
-    public String list() {
+    public String list()
+    {
         return "admin/statistics/occupied_statistics";
     }
 
@@ -34,10 +35,9 @@ public class SeatStatisticsController {
      */
     @RequestMapping("/statisticsMap")
     @ResponseBody
-    public Result<Map<String, List<Integer>>> statisticsList() {
+    public Result<Map<String, List<Integer>>> statisticsList()
+    {
         Map<String, List<Integer>> stringListMap = seatStatisticsService.seatStatisticsList();
-
-
         return Result.success(stringListMap);
     }
 }

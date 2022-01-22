@@ -11,12 +11,15 @@ import java.util.Map.Entry;
  * @author llq
  *
  */
-public class HttpUtil {
-
-	public static String sendPost(String curl, Map<String, String> headerPara,String param) {
+public class HttpUtil
+{
+	public static String sendPost(String curl, Map<String, String> headerPara,String param)
+    {
         String result = "";// 返回的结果
         BufferedReader in = null;// 读取响应输入流
-        try {
+
+        try
+        {
             //创建连接
             URL url = new URL(curl);
             HttpURLConnection connection = (HttpURLConnection) url
@@ -28,10 +31,11 @@ public class HttpUtil {
             connection.setInstanceFollowRedirects(true); //重定向，一般浏览器才需要
             connection.setRequestProperty("Content-Type",
                     "application/x-www-form-urlencoded;charset=utf-8"); //设置服务器解析数据的方式
-            if(headerPara != null){
-            	for(Entry<String, String> entry : headerPara.entrySet()){
+
+            if(headerPara != null)
+            {
+            	for(Entry<String, String> entry : headerPara.entrySet())
             		connection.setRequestProperty(entry.getKey(), entry.getValue());
-            	}
             }
             connection.connect();
 
@@ -46,22 +50,28 @@ public class HttpUtil {
             in = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             String line;
             // 读取返回的内容
-            while ((line = in.readLine()) != null) {
+            while ((line = in.readLine()) != null)
+            {
                 result += line;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             System.out.println("Http请求方法内部问题");
-        } finally {
-            try {
-                if (in != null) {
+        }
+        finally
+        {
+            try
+            {
+                if (in != null)
                     in.close();
-                }
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 ex.printStackTrace();
             }
         }
         return result;
     }
-	
 }

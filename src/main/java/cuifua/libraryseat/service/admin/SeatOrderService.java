@@ -14,7 +14,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class SeatOrderService {
+public class SeatOrderService
+{
     @Autowired
     private SeatOrderDao seatOrderDao;
 
@@ -33,6 +34,7 @@ public class SeatOrderService {
        return seatOrderDao.save(seatOrder);
     }
 
+
     /**
      * 通过学生id查选座订单
      * @param id
@@ -42,6 +44,7 @@ public class SeatOrderService {
         return seatOrderDao.findByStudentId(id);
     }
 
+
     /**
      * 查询所有订单
      * @return
@@ -50,12 +53,13 @@ public class SeatOrderService {
         return seatOrderDao.findAll();
     }
 
-    public PageBean<SeatOrder> findList(SeatOrder seatOrder, PageBean<SeatOrder> pageBean){
+
+    public PageBean<SeatOrder> findList(SeatOrder seatOrder, PageBean<SeatOrder> pageBean)
+    {
 
         Student student = studentService.findByLoginUser();
-        if (Objects.isNull(student) || Objects.isNull(student.getId())) {// 没拿到studentId 说明不是学生登录
+        if (Objects.isNull(student) || Objects.isNull(student.getId())) // 没拿到studentId 说明不是学生登录
             return pageBean;
-        }
 
         List<SeatOrder> findList = seatOrderDao.findByStudentId(student.getId());
 
@@ -63,13 +67,14 @@ public class SeatOrderService {
 
         SeatOrder stuIsOrdered = seatService.stuIsOrdered(student.getId(), currentDay);
 
-        if (Objects.nonNull(stuIsOrdered)) {
+        if (Objects.nonNull(stuIsOrdered))
+        {
             findList = findList.stream().map(o -> {
                 SeatOrder order = o;
 
-                if (o.getId() == stuIsOrdered.getId()) {
+                if (o.getId() == stuIsOrdered.getId())
                     o.setStatus(2);
-                }
+
                 return order;
             }).collect(Collectors.toList());
         }
@@ -78,13 +83,16 @@ public class SeatOrderService {
         pageBean.setTotal(seatOrderDao.countByStudentId(student.getId()));
         pageBean.setTotalPage(Integer.valueOf(pageBean.getTotal() / pageBean.getPageSize()+""));
         long totalPage = pageBean.getTotal() % pageBean.getPageSize();
-        if(totalPage != 0){
+
+        if(totalPage != 0)
             pageBean.setTotalPage(pageBean.getTotalPage() + 1);
-        }
+
         return pageBean;
     }
 
-    public void delete(Long id) {
+
+    public void delete(Long id)
+    {
         seatOrderDao.deleteById(id);
     }
 }

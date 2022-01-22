@@ -18,21 +18,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping("/stu")
 @Controller
-public class StudentController {
+public class StudentController
+{
     @Autowired
    private StudentService studentService;
 
     @Autowired
     private  ClazzService clazzService;
+
+
     @RequestMapping(value="/list")
-    public String list(Model model, Student student, PageBean<Student> pageBean){
+    public String list(Model model, Student student, PageBean<Student> pageBean)
+    {
         model.addAttribute("title", "学生列表");
-        if (student.getUser()!=null){
+
+        if (student.getUser()!=null)
             model.addAttribute("name", student.getUser().getNickName());
-        }
+
         model.addAttribute("pageBean", studentService.findByName(student, pageBean));
         return "admin/student/list";
     }
+
 
     /**
      * 学生修改
@@ -41,11 +47,13 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value="/edit",method=RequestMethod.GET)
-    public String edit(Model model,@RequestParam(name="id")Long id){
+    public String edit(Model model,@RequestParam(name="id")Long id)
+    {
         model.addAttribute("clazzs",clazzService.findAll());
         model.addAttribute("student", studentService.findByID(id));
         return "admin/student/edit";
     }
+
 
     /**
      * 学生添加页面
@@ -53,26 +61,34 @@ public class StudentController {
      * @return
      */
     @RequestMapping(value="/add",method= RequestMethod.GET)
-    public String add(Model model){
+    public String add(Model model)
+    {
         model.addAttribute("clazzs",clazzService.findAll());
         return "admin/student/add";
     }
 
+
     @RequestMapping(value="delete",method= RequestMethod.POST)
     @ResponseBody
-    public Result delete(long id){
-        try {
+    public Result delete(long id)
+    {
+        try
+        {
             studentService.delete(id);
-        } catch (Exception e) {
-
+        }
+        catch (Exception e)
+        {
             return Result.error(CodeMsg.ADMIN_ROLE_DELETE_ERROR);
         }
 
         return Result.success(true);
     }
+
+
     @RequestMapping(value="get",method= RequestMethod.POST)
     @ResponseBody
-    public Result get(long id){
+    public Result get(long id)
+    {
         return Result.success(studentService.findByID(id));
     }
 
@@ -84,35 +100,28 @@ public class StudentController {
      */
     @RequestMapping(value="/add",method=RequestMethod.POST)
     @ResponseBody
-    public Result<Boolean> add(Student student){
+    public Result<Boolean> add(Student student)
+    {
         CodeMsg validate = ValidateEntityUtil.validate(student);
-        if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+        if(validate.getCode() != CodeMsg.SUCCESS.getCode())
             return Result.error(validate);
-        }
 
-        if (!StringUtil.emailFormat(student.getUser().getEmail())){
+        if (!StringUtil.emailFormat(student.getUser().getEmail()))
             return   Result.error(CodeMsg.ADMIN_PUBLIC_EMAIL);
-        }
-        if (!StringUtil.isMobile(student.getUser().getMobile())){
+
+        if (!StringUtil.isMobile(student.getUser().getMobile()))
             return   Result.error(CodeMsg.ADMIN_PUBLIC_MOBILE);
-        }
+
         /**
          * 有id是修改需要判断
          * 无id是增加无需判断
          */
-        if (student.getId()!=null){
-            //用统一验证实体方法验证是否合法
-            //到这说明一切符合条件，进行数据库保存
+        if (student.getId()!=null)//用统一验证实体方法验证是否合法 //到这说明一切符合条件，进行数据库保存
             studentService.update(student);
-        }else {
-            //学生学号
+
+        else //学生学号
             studentService.add(student);
-        }
+
         return Result.success(true);
     }
-
-
-
-
-
 }

@@ -17,10 +17,12 @@ import java.util.Date;
 @Data
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class Student extends BaseEntity {
+public class Student extends BaseEntity
+{
     public static final int STUDENT_CREDITS_ENABLE = 100;//学生默认积分是100
     public static final String STUDENT_BIRTHDAY_ENABLE = "S";//学生默认生成学号默认是S
     public static final Long STUDENT_ROLE_ENABLE = 9l;//学生默认角色是学生 9是学生
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;//学生相对应的用户
@@ -38,6 +40,4 @@ public class Student extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "clazz_id")
     private Clazz clazz;  //班级
-
-
 }

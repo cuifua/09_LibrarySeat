@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Data
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class ReadingRoom extends BaseEntity{
+public class ReadingRoom extends BaseEntity
+{
 
     @Column(name="name",nullable=false,length=32)
     private String name;//名称

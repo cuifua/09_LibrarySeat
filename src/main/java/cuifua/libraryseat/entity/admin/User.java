@@ -13,11 +13,8 @@ import javax.persistence.*;
 @Entity
 @Table(name="ylrc_user")
 @EntityListeners(AuditingEntityListener.class)
-public class User extends BaseEntity{
-
-	/**
-	 * 
-	 */
+public class User extends BaseEntity
+{
 	private static final long serialVersionUID = 1L;
 	
 	private static final int USER_SEX_MAN = 1;//性别男
@@ -68,7 +65,6 @@ public class User extends BaseEntity{
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -76,7 +72,6 @@ public class User extends BaseEntity{
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -84,7 +79,6 @@ public class User extends BaseEntity{
 	public Role getRole() {
 		return role;
 	}
-
 	public void setRole(Role role) {
 		this.role = role;
 	}
@@ -92,7 +86,6 @@ public class User extends BaseEntity{
 	public int getStatus() {
 		return status;
 	}
-
 	public void setStatus(int status) {
 		this.status = status;
 	}
@@ -100,7 +93,6 @@ public class User extends BaseEntity{
 	public String getHeadPic() {
 		return headPic;
 	}
-
 	public void setHeadPic(String headPic) {
 		this.headPic = headPic;
 	}
@@ -108,7 +100,6 @@ public class User extends BaseEntity{
 	public int getSex() {
 		return sex;
 	}
-
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
@@ -116,7 +107,6 @@ public class User extends BaseEntity{
 	public String getMobile() {
 		return mobile;
 	}
-
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
@@ -124,7 +114,6 @@ public class User extends BaseEntity{
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -132,20 +121,16 @@ public class User extends BaseEntity{
 	public String getNickName() {
 		return nickName;
 	}
-
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "User [role=" + role + ", username=" + username + ", password="
 				+ password + ", status=" + status + ", headPic=" + headPic
 				+ ", sex=" + sex + ", mobile=" + mobile + ", email=" + email
 				+ "]";
 	}
-
-
-
-
 }

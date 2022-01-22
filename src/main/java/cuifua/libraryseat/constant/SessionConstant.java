@@ -4,8 +4,8 @@ package cuifua.libraryseat.constant;
  * @author Administrator
  *
  */
-public class SessionConstant {
-
+public class SessionConstant
+{
 	public static final String SESSION_USER_LOGIN_KEY = "ylrc_user";
 
 	public static final String SESSION_USER_AUTH_KEY = "ylrc_auth";

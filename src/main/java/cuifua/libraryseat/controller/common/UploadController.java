@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
@@ -103,9 +105,10 @@ public class UploadController {
 		User loginedUser = SessionUtil.getLoginedUser();
 		if(loginedUser != null)
 			loginedUser.setHeadPic("filename");
-		User save = userService.save(loginedUser);
 
-		 */
+
+		*/
+
 
 		return Result.success(filename);
 	}

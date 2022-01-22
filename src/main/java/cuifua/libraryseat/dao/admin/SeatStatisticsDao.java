@@ -3,12 +3,12 @@ package cuifua.libraryseat.dao.admin;
 import cuifua.libraryseat.entity.admin.SeatOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-public interface SeatStatisticsDao extends JpaRepository<SeatOrder,Long> {
-
-
+@Repository
+public interface SeatStatisticsDao extends JpaRepository<SeatOrder,Long>
+{
     /**
      * 查询今年的阅览室相应的占座数据
      * @return
@@ -24,6 +24,4 @@ public interface SeatStatisticsDao extends JpaRepository<SeatOrder,Long> {
             "GROUP BY\n" +
             " reading_room_id,MONTH(subscribe_time)"   ,nativeQuery = true)
     List<Object> seatOrderCountByDate();
-
-
 }

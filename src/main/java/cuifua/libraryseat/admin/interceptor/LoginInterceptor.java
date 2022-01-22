@@ -34,20 +34,27 @@ public class LoginInterceptor implements HandlerInterceptor
 	private SiteConfig siteConfig;
 	
 	@Override
-	public boolean  preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+	public boolean  preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+	{
 		String requestURI = request.getRequestURI();
 		HttpSession session = request.getSession();
 		session.setAttribute(SessionConstant.SESSION_USER_AUTH_KEY, AppConfig.ORDER_AUTH);
 		Object attribute = session.getAttribute(SessionConstant.SESSION_USER_LOGIN_KEY);
-		if(attribute == null){
+
+		if(attribute == null)
+		{
 			log.info("用户还未登录或者session失效,重定向到登录页面,当前URL=" + requestURI);
 			//首先判断是否是ajax请求
-			if(StringUtil.isAjax(request)){
+			if(StringUtil.isAjax(request))
+			{
 				//表示是ajax请求
-				try {
+				try
+				{
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write(JSON.toJSONString(CodeMsg.USER_SESSION_EXPIRED));
-				} catch (IOException e) {
+				}
+				catch (IOException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -55,16 +62,21 @@ public class LoginInterceptor implements HandlerInterceptor
 			}
 			//说明是普通的请求，可直接重定向到登录页面
 			//用户还未登录或者session失效,重定向到登录页面
-			try {
+			try
+			{
 				response.sendRedirect("/system/login");
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return false;
 		}
 		log.info("该请求符合登录要求，放行" + requestURI);
-		if(!StringUtil.isAjax(request)){
+
+		if(!StringUtil.isAjax(request))
+		{
 			//若不是ajax请求，则将菜单信息放入页面模板变量
 			User user = (User)attribute;
 			List<Menu> authorities = user.getRole().getAuthorities();

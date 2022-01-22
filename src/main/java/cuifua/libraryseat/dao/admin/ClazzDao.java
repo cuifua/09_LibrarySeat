@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ClazzDao extends JpaRepository<Clazz, Long> {
+public interface ClazzDao extends JpaRepository<Clazz, Long>
+{
     /**
      * 按照班级名查找班级信息
      * @param claname
@@ -22,5 +23,4 @@ public interface ClazzDao extends JpaRepository<Clazz, Long> {
      */
     @Query("select c from Clazz c where id = :id")
     public Clazz find(@Param("id")Long id);
-
 }

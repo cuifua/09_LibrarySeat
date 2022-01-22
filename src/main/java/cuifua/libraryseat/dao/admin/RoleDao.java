@@ -10,7 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleDao extends JpaRepository<Role, Long> {
+public interface RoleDao extends JpaRepository<Role, Long>
+{
 	@Query("select r from Role r where r.id = :id")
 	Role find(@Param("id")Long id);
 }

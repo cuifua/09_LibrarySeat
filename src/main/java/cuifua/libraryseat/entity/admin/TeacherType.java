@@ -15,8 +15,8 @@ import javax.persistence.Table;
 @Data
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class TeacherType extends BaseEntity{
-
+public class TeacherType extends BaseEntity
+{
     @ValidateEntity(required=true)
     @Column(name="name",length=20)
     public String name;
@@ -24,5 +24,4 @@ public class TeacherType extends BaseEntity{
     @ValidateEntity(required=true)
     @Column(name="type",length=2)
     public int type;
-
 }

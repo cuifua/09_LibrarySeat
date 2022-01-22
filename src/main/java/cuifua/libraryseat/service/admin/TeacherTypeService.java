@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class TeacherTypeService  {
-
+public class TeacherTypeService
+{
     @Autowired
     private TeacherTypeDao teacherTypeDao;
 

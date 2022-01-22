@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @RequestMapping("/user")
 @Controller
-public class UserController {
-
+public class UserController
+{
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -40,24 +40,28 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value="/list")
-	public String list(Model model,User user,PageBean<User> pageBean){
+	public String list(Model model,User user,PageBean<User> pageBean)
+	{
 		model.addAttribute("title", "用户列表");
 		model.addAttribute("nickName", user.getNickName());
 		model.addAttribute("pageBean", userService.findList(user, pageBean));
 		return "admin/user/list";
 	}
-	
+
+
 	/**
 	 * 新增用户页面
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.GET)
-	public String add(Model model){
+	public String add(Model model)
+	{
 		model.addAttribute("roles", roleService.findAll());
 		return "admin/user/add";
 	}
-	
+
+
 	/**
 	 * 用户添加表单提交处理
 	 * @param user
@@ -65,39 +69,43 @@ public class UserController {
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.POST)
 	@ResponseBody
-	public Result<Boolean> add(User user){
+	public Result<Boolean> add(User user)
+	{
 		//用统一验证实体方法验证是否合法
 		CodeMsg validate = ValidateEntityUtil.validate(user);
-		if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+		if(validate.getCode() != CodeMsg.SUCCESS.getCode())
 			return Result.error(validate);
-		}
-		if(user.getRole() == null || user.getRole().getId() == null){
+
+		if(user.getRole() == null || user.getRole().getId() == null)
 			return Result.error(CodeMsg.ADMIN_USER_ROLE_EMPTY);
-		}
+
 		//判断用户名是否存在
-		if(userService.isExistUsername(user.getUsername(), 0l)){
+		if(userService.isExistUsername(user.getUsername(), 0l))
 			return Result.error(CodeMsg.ADMIN_USERNAME_EXIST);
-		}
+
 		//到这说明一切符合条件，进行数据库新增
-		if(userService.save(user) == null){
+		if(userService.save(user) == null)
 			return Result.error(CodeMsg.ADMIN_USE_ADD_ERROR);
-		}
+
 		operaterLogService.add("添加用户，用户名：" + user.getUsername());
 		return Result.success(true);
 	}
-	
+
+
 	/**
 	 * 用户编辑页面
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
-	public String edit(Model model,@RequestParam(name="id",required=true)Long id){
+	public String edit(Model model,@RequestParam(name="id",required=true)Long id)
+	{
 		model.addAttribute("roles", roleService.findAll());
 		model.addAttribute("user", userService.find(id));
 		return "admin/user/edit";
 	}
-	
+
+
 	/**
 	 * 编辑用户信息表单提交处理
 	 * @param user
@@ -123,6 +131,7 @@ public class UserController {
 
 		//到这说明一切符合条件，进行数据库保存
 		User findById = userService.find(user.getId());
+
 		//讲提交的用户信息指定字段复制到已存在的user对象中,该方法会覆盖新字段内容
 		BeanUtils.copyProperties(user, findById, "id","createTime","updateTime");
 		if(userService.save(findById) == null)
@@ -131,7 +140,8 @@ public class UserController {
 		operaterLogService.add("编辑用户，用户名：" + user.getUsername());
 		return Result.success(true);
 	}
-	
+
+
 	/**
 	 * 删除用户
 	 * @param id
@@ -141,9 +151,12 @@ public class UserController {
 	@ResponseBody
 	public Result<Boolean> delete(@RequestParam(name="id",required=true)Long id)
 	{
-		try {
+		try
+		{
 			userService.delete(id);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return Result.error(CodeMsg.ADMIN_USE_DELETE_ERROR);
 		}
 		operaterLogService.add("添加用户，用户ID：" + id);

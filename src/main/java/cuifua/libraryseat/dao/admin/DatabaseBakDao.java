@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface DatabaseBakDao extends JpaRepository<DatabaseBak, Long>{
-
+public interface DatabaseBakDao extends JpaRepository<DatabaseBak, Long>
+{
 	/**
 	 * 根据id来查询
 	 * @param id
@@ -21,6 +21,4 @@ public interface DatabaseBakDao extends JpaRepository<DatabaseBak, Long>{
 	 */
 	@Query("select db from DatabaseBak db where id = :id")
 	DatabaseBak find(@Param("id")Long id);
-	
-	
 }

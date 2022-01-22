@@ -7,8 +7,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ylrc_clazz")
 @Data
-public class Clazz extends BaseEntity {
-
+public class Clazz extends BaseEntity
+{
     @Column(name = "claname")
     private String claname; //班级名称
 

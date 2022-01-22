@@ -11,18 +11,19 @@ import org.springframework.stereotype.Service;
  * 阅览室操作Service
  */
 @Service
-public class ReadRoomService {
-
+public class ReadRoomService
+{
     @Autowired
     private ReadRoomDao readRoomDao;
 
-    /***
+    /**
      * 分页查询
      * @param readingRoom
      * @param pageBean
      * @return
      */
-    public PageBean<ReadingRoom> findAll(ReadingRoom readingRoom,PageBean<ReadingRoom> pageBean){
+    public PageBean<ReadingRoom> findAll(ReadingRoom readingRoom,PageBean<ReadingRoom> pageBean)
+    {
         ExampleMatcher withMatcher = ExampleMatcher.matching().withMatcher("name", ExampleMatcher.GenericPropertyMatchers.contains());
         withMatcher = withMatcher.withIgnorePaths("row","lie");
         Example<ReadingRoom> example = Example.of(readingRoom, withMatcher);
@@ -35,7 +36,8 @@ public class ReadRoomService {
 
     }
 
-    /***
+
+    /**
      * 根据ID删除阅读室
      * @param id
      */
@@ -43,7 +45,8 @@ public class ReadRoomService {
         readRoomDao.deleteById(id);
     }
 
-    /***
+
+    /**
      * 添加阅览室
      * @param readingRoom
      */
@@ -51,12 +54,14 @@ public class ReadRoomService {
           readRoomDao.save(readingRoom);
     }
 
-    /***
+
+    /**
      * 根据名称判断是否存在
      * @param name
      * @return
      */
-    public boolean isExistName(String name,Long readingType) {
+    public boolean isExistName(String name,Long readingType)
+    {
         ReadingRoom readingRoom = readRoomDao.findByNameAndReading(name,readingType);
         if(readingRoom !=null){
             if(readingRoom.getName().equals(name)){return true;}
@@ -64,12 +69,14 @@ public class ReadRoomService {
         return false;
     }
 
-    /***
+
+    /**
      * 根据ID Name判断是否存在
      * @param id
      * @return
      */
-    public boolean isExistName(Long id,String name,Long readingType) {
+    public boolean isExistName(Long id,String name,Long readingType)
+    {
         ReadingRoom readingRoom = readRoomDao.findByNameAndReading(name,readingType);
         if(readingRoom !=null){
             if(readingRoom.getId().longValue()!=id.longValue()){
@@ -80,7 +87,8 @@ public class ReadRoomService {
         return false;
     }
 
-    /***
+
+    /**
      * 根据ID查询阅览室
      * @param id
      * @return

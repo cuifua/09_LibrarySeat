@@ -12,8 +12,8 @@ import java.util.List;
  *
  */
 @Component
-public class PageBean<T> {
-	
+public class PageBean<T>
+{
 	private int currentPage = 1;//当前页码
 	
 	private int pageSize = 10;//每页显示数量，默认十条

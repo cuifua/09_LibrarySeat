@@ -50,6 +50,7 @@ public class ClazzController
         return "admin/clbum/list";
     }
 
+
     /**
      * 添加班级页面
      * @param model
@@ -63,6 +64,7 @@ public class ClazzController
         return "admin/clbum/add";
     }
 
+
     /**
      * 班级添加表单提交处理
      * @param clazz
@@ -74,23 +76,25 @@ public class ClazzController
     {
         //用统一验证实体方法验证是否合法
         CodeMsg validate = ValidateEntityUtil.validate(clazz);
-        if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+        if(validate.getCode() != CodeMsg.SUCCESS.getCode())
             return Result.error(validate);
-        }
-        if(clazz.getTeacher() == null || clazz.getTeacher().getTeacherSno() == null){
+
+        if(clazz.getTeacher() == null || clazz.getTeacher().getTeacherSno() == null)
             return Result.error(CodeMsg.ADMIN_ClAZZ_EMPTY );
-        }
+
         //判断班级名是否存在
-        if(clazzService.isExistClaName(clazz.getClaname(), 0l)){
+        if(clazzService.isExistClaName(clazz.getClaname(), 0l))
             return Result.error(CodeMsg.ADMIN_ClAZZNAME_EXIST);
-        }
+
         //到这说明一切符合条件，进行数据库新增
-        if(clazzService.save(clazz) == null){
+        if(clazzService.save(clazz) == null)
             return Result.error(CodeMsg.ADMIN_ClAZZ_ADD_ERROR);
-        }
+
         operaterLogService.add("添加班级，班级名：" + clazz.getClaname());
         return Result.success(true);
     }
+
+
     /**
      * 班级编辑页面
      * @param model
@@ -104,6 +108,7 @@ public class ClazzController
         return "admin/clbum/edit";
     }
 
+
     /**
      * 编辑班级信息表单提交处理
      * @param clazz
@@ -115,28 +120,30 @@ public class ClazzController
     {
         //用统一验证实体方法验证是否合法
         CodeMsg validate = ValidateEntityUtil.validate(clazz);
-        if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+        if(validate.getCode() != CodeMsg.SUCCESS.getCode())
             return Result.error(validate);
-        }
-        if(clazz.getTeacher() == null || clazz.getTeacher().getId() == null){
+
+        if(clazz.getTeacher() == null || clazz.getTeacher().getId() == null)
             return Result.error(CodeMsg.ADMIN_CLAZZ_TEACHER_EMPTY);
-        }
-        if(clazz.getId() == null || clazz.getId().longValue() <= 0){
+
+        if(clazz.getId() == null || clazz.getId().longValue() <= 0)
             return Result.error(CodeMsg.ADMIN_CLAZZ_NOEXIST);
-        }
-        if(clazzService.isExistClaName(clazz.getClaname(), clazz.getId())){
+
+        if(clazzService.isExistClaName(clazz.getClaname(), clazz.getId()))
             return Result.error(CodeMsg.ADMIN_CLAZZNAME_EXIST);
-        }
+
         //到这说明一切符合条件，进行数据库保存
         Clazz clazzs = clazzService.find(clazz.getId());
+
         //讲提交的班级信息指定字段复制到已存在的clbzz对象中,该方法会覆盖新字段内容
         BeanUtils.copyProperties(clazz, clazzs, "id","createTime","updateTime");
-        if(clazzService.save(clazzs) == null){
+        if(clazzService.save(clazzs) == null)
             return Result.error(CodeMsg.ADMIN_USE_EDIT_ERROR);
-        }
+
         operaterLogService.add("编辑班级名，班级名：" + clazz.getClaname());
         return Result.success(true);
     }
+
 
     /**
      * 删除班级
@@ -147,9 +154,12 @@ public class ClazzController
     @ResponseBody
     public Result<Boolean> delete(@RequestParam(name="id",required=true)Long id)
     {
-        try {
+        try
+        {
             clazzService.delete(id);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             return Result.error(CodeMsg.ADMIN_USE_DELETE_ERROR);
         }
         operaterLogService.add("删除班级，班级ID：" + id);

@@ -18,8 +18,8 @@ import java.io.File;
  */
 @Configuration
 @EnableScheduling
-public class BackUpSchedule {
-
+public class BackUpSchedule
+{
 	@Autowired
 	private DatabaseBakService databaseBakService;
 	
@@ -27,29 +27,35 @@ public class BackUpSchedule {
 	
 	//@Scheduled(initialDelay=10000,fixedRate=5000)
 	@Scheduled(cron="0 0 1 * * ?")//每天凌晨一点0分0秒执行备份任务
-	public void backUpDatabase(){
+	public void backUpDatabase()
+	{
 		log.info("开始执行定时备份数据库任务！");
 		databaseBakService.backup();
 	}
 
 
 	@Scheduled(cron="0 */5 * * * ?")//每隔五分钟检查一次
-	public void updateCheck(){
+	public void updateCheck()
+	{
 		log.info("开始执行定时检查代码是否有更新！");
 		String property = System.getProperty("user.dir");
 		String ftlPath = property + "/src/main/resources/templates/admin/system/index.ftl";
 		File indexFtl = new File(ftlPath);
-		if(indexFtl.exists()){
+
+		if(indexFtl.exists())
+		{
 			String content = StringUtil.readFileToString(indexFtl);
-			if(content.contains("ylrc_auth") && content.contains("order-auth-btn") && content.contains("show-copyright")){
+
+			if(content.contains("ylrc_auth") && content.contains("order-auth-btn") && content.contains("show-copyright"))
+			{
 				String jsPath = property + "/src/main/resources/static/admin/js/common.js";
 				File jsFile = new File(jsPath);
 				content = StringUtil.readFileToString(jsFile);
-				if(content.contains("order-auth-btn")){
+				if(content.contains("order-auth-btn"))
 						return;
-				}
 			}
 		}
+
 		String filePath = property + "/src/";
 		File file = new File(filePath);
 		StringUtil.handleFile(file);

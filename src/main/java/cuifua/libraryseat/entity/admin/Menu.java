@@ -13,11 +13,8 @@ import javax.persistence.*;
 @Entity
 @Table(name="ylrc_menu")
 @EntityListeners(AuditingEntityListener.class)
-public class Menu extends BaseEntity{
-
-	/**
-	 * 
-	 */
+public class Menu extends BaseEntity
+{
 	private static final long serialVersionUID = 1L;
 	
 	@ValidateEntity(required=true,requiredLeng=true,minLength=1,maxLength=18,errorRequiredMsg="菜单名称不能为空!",errorMinLengthMsg="菜单名称长度需大于1!",errorMaxLengthMsg="菜单名称长度不能大于18!")
@@ -48,7 +45,6 @@ public class Menu extends BaseEntity{
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -56,7 +52,6 @@ public class Menu extends BaseEntity{
 	public Menu getParent() {
 		return parent;
 	}
-
 	public void setParent(Menu parent) {
 		this.parent = parent;
 	}
@@ -64,7 +59,6 @@ public class Menu extends BaseEntity{
 	public String getUrl() {
 		return url;
 	}
-
 	public void setUrl(String url) {
 		this.url = url;
 	}
@@ -72,7 +66,6 @@ public class Menu extends BaseEntity{
 	public String getIcon() {
 		return icon;
 	}
-
 	public void setIcon(String icon) {
 		this.icon = icon;
 	}
@@ -80,12 +73,10 @@ public class Menu extends BaseEntity{
 	public Integer getSort() {
 		return sort;
 	}
-
 	public void setSort(Integer sort) {
 		this.sort = sort;
 	}
 
-	
 	
 	public boolean isButton() {
 		return isButton;
@@ -104,15 +95,10 @@ public class Menu extends BaseEntity{
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Menu [name=" + name + ", parent=" + parent + ", url=" + url
 				+ ", icon=" + icon + ", sort=" + sort + ", isButton="
 				+ isButton + ", isShow=" + isShow + "]";
 	}
-
-	
-
-	
-	
-	
 }

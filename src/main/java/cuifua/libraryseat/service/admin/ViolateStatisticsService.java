@@ -12,42 +12,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ViolateStatisticsService {
-
-
-
-
+public class ViolateStatisticsService
+{
     @Autowired
     private ViolateStatisticsDao statisticsDao;
-
-
-
-
 
     /**
      * 按照月份统计违规人数
      * @return
      */
-    public Statistics statisticsList(){
+    public Statistics statisticsList()
+    {
         List<Object>  list = statisticsDao.logIntegralCountByDate();
-
         Statistics statistics = new Statistics();
-
         List<String> months = new ArrayList<>();    //声明月份list判断根据索引传输值
-
         HashMap<Integer, String> dataMap = new HashMap<Integer, String>();  //用于存储y轴人数
 
-        for (int i=0;i<=11;i++){    //循环添加12个月份
+        for (int i=0;i<=11;i++) //循环添加12个月份
+        {
             String str = String.valueOf(i+1);
             months.add(i,str);
         }
 
-        for (int i=0;i<=11;i++){    //循环添加12个月份
+        for (int i=0;i<=11;i++)   //循环添加12个月份
             dataMap.put(i, "0");
-        }
+
 
         //遍历查询结果
-        for(Object o  : list){
+        for(Object o  : list)
+        {
             //将一个索引下的元素放入数组便于赋值
             Object[] arr = (Object[]) o;
 
@@ -67,6 +60,4 @@ public class ViolateStatisticsService {
 
         return statistics;
     }
-
-
 }

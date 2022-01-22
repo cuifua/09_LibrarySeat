@@ -15,30 +15,30 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TeacherService {
-
+public class TeacherService
+{
     @Autowired
     private TeacherDao teacherDao;
 
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private RoleService roleService;
 
 
-    public Teacher findByID(Long id) {
-
-
+    public Teacher findByID(Long id)
+    {
         Optional<Teacher> byId = teacherDao.findById(id);
 
         return byId.isPresent() ? byId.get() : null;
     }
 
+
     public List<Teacher> findAll() {
         return teacherDao.findAll();
     }
+
 
     /**
      * 删除一个教师删除的时候需要先查出来相对的用户的id
@@ -46,11 +46,13 @@ public class TeacherService {
      *
      * @param id
      */
-    public void delete(long id) {
+    public void delete(long id)
+    {
         Teacher byID = findByID(id);
         teacherDao.deleteById(id);
         userService.delete(byID.getUser().getId());
     }
+
 
     /**
      * 保存教师
@@ -60,7 +62,8 @@ public class TeacherService {
      * @return
      */
     @Transactional
-    public Teacher add(Teacher teacher) {
+    public Teacher add(Teacher teacher)
+    {
         Role role = roleService.find(Teacher.TEACHER_ROLE_ENABLE);
         String s = StringUtil.generateSn(Teacher.TEACHER_BIRTHDAY_ENABLE);
         teacher.setTeacherSno(s);
@@ -73,6 +76,7 @@ public class TeacherService {
         return teacherDao.save(teacher);
     }
 
+
     /**
      * 保存一个教师
      *
@@ -80,11 +84,13 @@ public class TeacherService {
      * @return
      */
     @Transactional
-    public Teacher update(Teacher teacher) {
+    public Teacher update(Teacher teacher)
+    {
         User save = userService.save(teacher.getUser());
         teacher.setUser(save);
         return teacherDao.save(teacher);
     }
+
 
     /**
      * 分页按教师名称搜索教师列表
@@ -93,7 +99,8 @@ public class TeacherService {
      * @param pageBean
      * @return
      */
-    public PageBean<Teacher> findByName(Teacher teacher, PageBean<Teacher> pageBean) {
+    public PageBean<Teacher> findByName(Teacher teacher, PageBean<Teacher> pageBean)
+    {
         ExampleMatcher withMatcher = ExampleMatcher.matching().withMatcher("user.nickName", ExampleMatcher.GenericPropertyMatchers.contains());
         withMatcher = withMatcher.withIgnorePaths("teacherType", "clbum", "user.role", "user.status", "user.sex", "user.student", "user.teacher");
         Example<Teacher> example = Example.of(teacher, withMatcher);
@@ -104,5 +111,4 @@ public class TeacherService {
         pageBean.setTotalPage(findAll.getTotalPages());
         return pageBean;
     }
-
 }

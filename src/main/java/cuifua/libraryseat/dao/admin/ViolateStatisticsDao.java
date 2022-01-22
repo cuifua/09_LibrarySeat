@@ -4,12 +4,13 @@ package cuifua.libraryseat.dao.admin;
 import cuifua.libraryseat.entity.admin.LogIntegral;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface ViolateStatisticsDao extends JpaRepository<LogIntegral,Long> {
-
-
+@Repository
+public interface ViolateStatisticsDao extends JpaRepository<LogIntegral,Long>
+{
     /**
      * 查询今年的违规人数数据
      * @return
@@ -24,11 +25,4 @@ public interface ViolateStatisticsDao extends JpaRepository<LogIntegral,Long> {
             "GROUP BY\n" +
             "\tMONTH(create_time)"   ,nativeQuery = true)
     List<Object> logIntegralCountByDate();
-
-
-
-
-
-
-
 }

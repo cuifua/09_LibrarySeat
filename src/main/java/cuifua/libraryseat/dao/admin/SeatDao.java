@@ -9,11 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SeatDao extends JpaRepository<Seat, Long> {
-
+public interface SeatDao extends JpaRepository<Seat, Long>
+{
     @Query("select s from Seat s where id = :id")
     Seat find(@Param("id")Long id);
-
     List<Seat> findByReadingRoomId(Long id);
-
 }

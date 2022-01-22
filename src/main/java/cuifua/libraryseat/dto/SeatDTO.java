@@ -9,12 +9,11 @@ import java.util.Date;
 
 @Data
 @ToString
-public class SeatDTO {
-
+public class SeatDTO
+{
     private ReadingRoom readingRoom;//阅览室Id
 
     private Date createTime;//创建时间
 
     private Seat seat;
-
 }

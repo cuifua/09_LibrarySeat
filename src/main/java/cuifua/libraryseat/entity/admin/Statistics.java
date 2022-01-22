@@ -8,7 +8,8 @@ import java.util.Map;
 
 @Data
 @ToString
-public class Statistics {
+public class Statistics
+{
      private List<String> data;     //数据
 //    private List<String> seatDataOne;  //座位数据1
 //    private List<String> seatDataTwo;  //座位数据2
@@ -17,5 +18,4 @@ public class Statistics {
     private String name;//阅览室名称
 
     private List<Map<String,Integer>> seatData;
-
 }

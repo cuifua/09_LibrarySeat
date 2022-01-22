@@ -76,7 +76,8 @@ public class SystemController
 	public String login(Model model){
 		return "admin/system/login";
 	}
-	
+
+
 	/**
 	 * 用户登录提交表单处理方法
 	 * @param request
@@ -143,7 +144,8 @@ public class SystemController
 		log.info("用户成功登录，user = " + findByUsername);
 		return Result.success(true);
 	}
-	
+
+
 	/**
 	 * 登录成功后的系统主页
 	 * @param model
@@ -163,7 +165,8 @@ public class SystemController
 		model.addAttribute("showTipsBtnText", showTipsBtnText);
 		return "admin/system/index";
 	}
-	
+
+
 	/**
 	 * 注销登录
 	 * @return
@@ -172,12 +175,14 @@ public class SystemController
 	public String logout()
 	{
 		User loginedUser = SessionUtil.getLoginedUser();
-		if(loginedUser != null){
+
+		if(loginedUser != null)
 			SessionUtil.set(SessionConstant.SESSION_USER_LOGIN_KEY, null);
-		}
+
 		return "redirect:login";
 	}
-	
+
+
 	/**
 	 * 无权限提示页面
 	 * @return
@@ -187,7 +192,8 @@ public class SystemController
 	{
 		return "admin/system/no_right";
 	}
-	
+
+
 	/**
 	 * 修改用户个人信息
 	 * @return
@@ -197,7 +203,8 @@ public class SystemController
 	{
 		return "admin/system/update_userinfo";
 	}
-	
+
+
 	/**
 	 * 修改个人信息保存
 	 * @param user
@@ -219,16 +226,19 @@ public class SystemController
 		SessionUtil.set(SessionConstant.SESSION_USER_LOGIN_KEY, loginedUser);
 		return Result.success(save);
 	}
-	
+
+
 	/**
 	 * 修改密码页面
 	 * @return
 	 */
 	@RequestMapping(value="/update_pwd",method=RequestMethod.GET)
-	public String updatePwd(){
+	public String updatePwd()
+	{
 		return "admin/system/update_pwd";
 	}
-	
+
+
 	/**
 	 * 修改密码表单提交
 	 * @param oldPwd
@@ -242,20 +252,19 @@ public class SystemController
 			)
 	{
 		User loginedUser = SessionUtil.getLoginedUser();
-		if(!loginedUser.getPassword().equals(oldPwd)){
+		if(!loginedUser.getPassword().equals(oldPwd))
 			return Result.error(CodeMsg.ADMIN_USER_UPDATE_PWD_ERROR);
-		}
-		if(StringUtils.isEmpty(newPwd)){
+
+		if(StringUtils.isEmpty(newPwd))
 			return Result.error(CodeMsg.ADMIN_USER_UPDATE_PWD_EMPTY);
-		}
+
 		loginedUser.setPassword(newPwd);
-		//保存数据库
-		userService.save(loginedUser);
-		//更新session
-		SessionUtil.set(SessionConstant.SESSION_USER_LOGIN_KEY, loginedUser);
+		userService.save(loginedUser);//保存数据库
+		SessionUtil.set(SessionConstant.SESSION_USER_LOGIN_KEY, loginedUser);//更新session
 		return Result.success(true);
 	}
-	
+
+
 	/**
 	 * 日志管理列表
 	 * @param model
@@ -271,7 +280,8 @@ public class SystemController
 		model.addAttribute("title", "日志列表");
 		return "admin/system/operator_log_list";
 	}
-	
+
+
 	/**
 	 * 删除操作日志，可删除多个
 	 * @param ids
@@ -281,14 +291,16 @@ public class SystemController
 	@ResponseBody
 	public Result<Boolean> delete(String ids)
 	{
-		if(!StringUtils.isEmpty(ids)){
+		if(!StringUtils.isEmpty(ids))
+		{
 			String[] splitIds = ids.split(",");
-			for(String id : splitIds){
+
+			for(String id : splitIds)
 				operaterLogService.delete(Long.valueOf(id));
-			}
 		}
 		return Result.success(true);
 	}
+
 
 	/**
 	 * 验证订单
@@ -300,15 +312,15 @@ public class SystemController
 	@ResponseBody
 	public Result<Boolean> authOrder(@RequestParam(name="orderSn",required=true)String orderSn,@RequestParam(name="phone",required=true)String phone)
 	{
-		if(orderSn.length() < 18){
+		if(orderSn.length() < 18)
 			return Result.error(CodeMsg.ORDER_SN_ERROR);
-		}
-		if(phone.length() < 11){
+
+		if(phone.length() < 11)
 			return Result.error(CodeMsg.PHONE_ERROR);
-		}
-		if(!StringUtil.authOrder(orderSn, phone)){
+
+		if(!StringUtil.authOrder(orderSn, phone))
 			return Result.error(CodeMsg.ORDER_AUTH_ERROR);
-		}
+
 		OrderAuth orderAuth = new OrderAuth();
 		orderAuth.setMac(StringUtil.getMac());
 		orderAuth.setOrderSn(orderSn);
@@ -330,5 +342,4 @@ public class SystemController
 		operaterLogService.deleteAll();
 		return Result.success(true);
 	}
-
 }

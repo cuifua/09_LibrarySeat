@@ -14,11 +14,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ylrc_operater_log")
 @EntityListeners(AuditingEntityListener.class)
-public class OperaterLog extends BaseEntity{
-	
-	/**
-	 * 
-	 */
+public class OperaterLog extends BaseEntity
+{
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="operator",nullable=false,length=18)
@@ -30,7 +27,6 @@ public class OperaterLog extends BaseEntity{
 	public String getOperator() {
 		return operator;
 	}
-
 	public void setOperator(String operater) {
 		this.operator = operater;
 	}
@@ -38,13 +34,7 @@ public class OperaterLog extends BaseEntity{
 	public String getContent() {
 		return content;
 	}
-
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	
-
-	
-	
 }

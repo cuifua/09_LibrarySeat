@@ -14,8 +14,8 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class UserService {
-
+public class UserService
+{
 	@Autowired
 	private UserDao userDao;
 	
@@ -27,7 +27,8 @@ public class UserService {
 	public User find(Long id){
 		return userDao.find(id);
 	}
-	
+
+
 	/**
 	 * 按照用户名查找用户
 	 * @param username
@@ -36,7 +37,8 @@ public class UserService {
 	public User findByUsername(String username){
 		return userDao.findByUsername(username);
 	}
-	
+
+
 	/**
 	 * 用户添加/编辑操作
 	 * @param user
@@ -45,14 +47,16 @@ public class UserService {
 	public User save(User user){
 		return userDao.save(user);
 	}
-	
+
+
 	/**
 	 * 分页查询用户列表
 	 * @param user
 	 * @param pageBean
 	 * @return
 	 */
-	public PageBean<User> findList(User user,PageBean<User> pageBean){
+	public PageBean<User> findList(User user,PageBean<User> pageBean)
+	{
 		ExampleMatcher withMatcher = ExampleMatcher.matching().withMatcher("nickName", GenericPropertyMatchers.contains());
 		withMatcher = withMatcher.withIgnorePaths("status","sex");
 		Example<User> example = Example.of(user, withMatcher);
@@ -63,14 +67,16 @@ public class UserService {
 		pageBean.setTotalPage(findAll.getTotalPages());
 		return pageBean;
 	}
-	
+
+
 	/**
 	 * 判断用户名是否存在，添加和编辑均可判断
 	 * @param username
 	 * @param id
 	 * @return
 	 */
-	public boolean isExistUsername(String username,Long id){
+	public boolean isExistUsername(String username,Long id)
+	{
 		User user = userDao.findByUsername(username);
 		if(user != null){
 			//表示用户名存在，接下来判断是否是编辑用户的本身
@@ -80,7 +86,8 @@ public class UserService {
 		}
 		return false;
 	}
-	
+
+
 	/**
 	 * 按照用户id删除
 	 * @param id
@@ -88,7 +95,8 @@ public class UserService {
 	public void delete(Long id){
 		userDao.deleteById(id);
 	}
-	
+
+
 	/**
 	 * 返回用户总数
 	 * @return

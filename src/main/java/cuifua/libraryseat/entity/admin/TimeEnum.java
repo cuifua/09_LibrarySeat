@@ -1,6 +1,7 @@
 package cuifua.libraryseat.entity.admin;
 
-public enum TimeEnum {
+public enum TimeEnum
+{
     AM(1,"上午"),//上午
     PM(2,"下午"),//下午
     ;
@@ -8,7 +9,8 @@ public enum TimeEnum {
     private int code;
     private String name;
 
-    TimeEnum(int code, String name) {
+    TimeEnum(int code, String name)
+    {
         this.code = code;
         this.name = name;
     }
@@ -16,7 +18,6 @@ public enum TimeEnum {
     public int getCode() {
         return code;
     }
-
     public void setCode(int code) {
         this.code = code;
     }
@@ -24,7 +25,6 @@ public enum TimeEnum {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }

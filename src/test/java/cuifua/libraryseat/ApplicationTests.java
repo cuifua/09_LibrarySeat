@@ -8,8 +8,9 @@ class ApplicationTests
 {
 
     @Test
-    void contextLoads()
+    void testUplodPic()
     {
+
     }
 
 }

@@ -15,11 +15,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ylrc_order_auth")
 @EntityListeners(AuditingEntityListener.class)
-public class OrderAuth extends BaseEntity{
-	
-	/**
-	 * 
-	 */
+public class OrderAuth extends BaseEntity
+{
 	private static final long serialVersionUID = 1L;
 
 	@ValidateEntity(required=true,requiredLeng=true,minLength=11,maxLength=11,errorRequiredMsg="手机号不能为空!",errorMinLengthMsg="手机号长为11!",errorMaxLengthMsg="手机号长度不能大于11!")
@@ -37,7 +34,6 @@ public class OrderAuth extends BaseEntity{
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
@@ -45,7 +41,6 @@ public class OrderAuth extends BaseEntity{
 	public String getOrderSn() {
 		return orderSn;
 	}
-
 	public void setOrderSn(String orderSn) {
 		this.orderSn = orderSn;
 	}
@@ -53,19 +48,14 @@ public class OrderAuth extends BaseEntity{
 	public String getMac() {
 		return mac;
 	}
-
 	public void setMac(String mac) {
 		this.mac = mac;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "OrderAuth [phone=" + phone + ", orderSn=" + orderSn + ", mac="
 				+ mac + "]";
 	}
-	
-	
-	
-	
-	
 }

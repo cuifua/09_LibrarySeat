@@ -18,8 +18,8 @@ import java.util.List;
  *
  */
 @Service
-public class OperaterLogService {
-	
+public class OperaterLogService
+{
 	@Autowired
 	private OperaterLogDao operaterLogDao;
 	
@@ -78,7 +78,8 @@ public class OperaterLogService {
 	 * @param operater
 	 * @param content
 	 */
-	public void add(String operater,String content){
+	public void add(String operater,String content)
+	{
 		OperaterLog operaterLog = new OperaterLog();
 		operaterLog.setOperator(operater);
 		operaterLog.setContent(content);
@@ -89,18 +90,21 @@ public class OperaterLogService {
 	 * 操作日志添加
 	 * @param content
 	 */
-	public void add(String content){
+	public void add(String content)
+	{
 		User loginedUser = SessionUtil.getLoginedUser();
 		add(loginedUser == null ? "未知(获取登录用户失败)" : loginedUser.getUsername(), content);
 	}
-	
+
+
 	/**
 	 * 分页查找日志
 	 * @param operaterLog
 	 * @param pageBean
 	 * @return
 	 */
-	public PageBean<OperaterLog> findList(OperaterLog operaterLog,PageBean<OperaterLog> pageBean){
+	public PageBean<OperaterLog> findList(OperaterLog operaterLog,PageBean<OperaterLog> pageBean)
+	{
 		ExampleMatcher withMatcher = ExampleMatcher.matching().withMatcher("operator", GenericPropertyMatchers.contains());
 		Example<OperaterLog> example = Example.of(operaterLog, withMatcher);
 		Pageable pageable = PageRequest.of(pageBean.getCurrentPage()-1, pageBean.getPageSize());
@@ -110,7 +114,8 @@ public class OperaterLogService {
 		pageBean.setTotalPage(findAll.getTotalPages());
 		return pageBean;
 	}
-	
+
+
 	/**
 	 * 操作日志总数
 	 * @return

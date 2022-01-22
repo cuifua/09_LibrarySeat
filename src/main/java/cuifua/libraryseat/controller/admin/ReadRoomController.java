@@ -25,36 +25,44 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "/readRoom")
-public class ReadRoomController {
-
+public class ReadRoomController
+{
     @Autowired
     private ReadRoomService readRoomService;
 
     @Autowired
     private ReadRoomTypeService readRoomTypeService;
+
     @RequestMapping(value="/list")
-    public String list(Model model, ReadingRoom readingRoom, PageBean<ReadingRoom> pageBean){
+    public String list(Model model, ReadingRoom readingRoom, PageBean<ReadingRoom> pageBean)
+    {
         model.addAttribute("title", "阅览室列表");
         model.addAttribute("name",readingRoom.getName());
         model.addAttribute("pageBean", readRoomService.findAll(readingRoom, pageBean));
         return "admin/readroom/list";
     }
 
-    /***
+
+    /**
      * 根据ID删除
      * @param id
      * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Boolean> delete(Long id){
-        try {
+    public Result<Boolean> delete(Long id)
+    {
+        try
+        {
             readRoomService.deleteId(id);
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             return Result.error(CodeMsg.ADMIN_READING_DELETE);
         }
         return Result.success(true);
     }
+
 
     /***
      * 跳转到添加页面
@@ -68,57 +76,61 @@ public class ReadRoomController {
         return "/admin/readroom/add";
     }
 
-    /***
+
+    /**
      * 新增阅览室类型
      * @return
      */
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Boolean>  save(ReadingRoom readingRoom){
+    public Result<Boolean>  save(ReadingRoom readingRoom)
+    {
         //用统一验证实体方法验证是否合法
         CodeMsg validate = ValidateEntityUtil.validate(readingRoom);
-        if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+        if(validate.getCode() != CodeMsg.SUCCESS.getCode())
             return Result.error(validate);
-        }
+
         //阅览室是否存在
-        if(readRoomService.isExistName(readingRoom.getName(),readingRoom.getReadingType().getId())){
+        if(readRoomService.isExistName(readingRoom.getName(),readingRoom.getReadingType().getId()))
             return  Result.error(CodeMsg.ADMIN_READING_ISEXIST);
-        }
+
         //进行数据库操作
         readRoomService.save(readingRoom);
         return Result.success(true);
     }
 
-    /***
+
+    /**
      * 跳转到编辑页面
      * @return
      */
     @RequestMapping(value = "/edit")
-    public  String update(@RequestParam(name="id",required=true)Long id, Model model){
+    public  String update(@RequestParam(name="id",required=true)Long id, Model model)
+    {
         ReadingRoom byId = readRoomService.findById(id);
         model.addAttribute("read",byId);
         model.addAttribute("readType",readRoomTypeService.findAll());
         return "/admin/readroom/edit";
     }
 
-    /***
+
+    /**
      * 编辑阅览室
      * @return
      */
     @RequestMapping(value = "/edit",method = RequestMethod.POST)
     @ResponseBody
-    public Result<Boolean>  edit(ReadingRoom readingRoom){
+    public Result<Boolean>  edit(ReadingRoom readingRoom)
+    {
         readingRoom.setCreateTime(new Date());
         //用统一验证实体方法验证是否合法
         CodeMsg validate = ValidateEntityUtil.validate(readingRoom);
-        if(validate.getCode() != CodeMsg.SUCCESS.getCode()){
+        if(validate.getCode() != CodeMsg.SUCCESS.getCode())
             return Result.error(validate);
-        }
 
         //是否编辑自身
-        if(readRoomService.isExistName(readingRoom.getId(),readingRoom.getName(),readingRoom.getReadingType().getId())){
+        if(readRoomService.isExistName(readingRoom.getId(),readingRoom.getName(),readingRoom.getReadingType().getId()))
             return Result.error(CodeMsg.ADMIN_READING_ISEXIST);
-        }
 
         //进行数据库操作
         ReadingRoom byId = readRoomService.findById(readingRoom.getId());
@@ -126,5 +138,4 @@ public class ReadRoomController {
         readRoomService.save(byId);
         return Result.success(true);
     }
-
 }

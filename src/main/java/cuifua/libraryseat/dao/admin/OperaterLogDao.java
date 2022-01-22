@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OperaterLogDao extends JpaRepository<OperaterLog, Long> {
+public interface OperaterLogDao extends JpaRepository<OperaterLog, Long>
+{
 	
 	/**
 	 * 根据id查找操作日志

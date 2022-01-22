@@ -14,7 +14,8 @@ import javax.persistence.Table;
 @Data
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-public class ReadingType extends BaseEntity {
+public class ReadingType extends BaseEntity
+{
     @Column(name="name",nullable=false,length=32)
     private String name;//名称
 

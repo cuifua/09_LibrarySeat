@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LogIntegralDao  extends JpaRepository<LogIntegral, Long> {
+public interface LogIntegralDao  extends JpaRepository<LogIntegral, Long>
+{
     List<LogIntegral> findByStudent(Student student);
-
     List<LogIntegral> findByStudent_Id(Long id);
 }
